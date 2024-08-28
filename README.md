@@ -1,7 +1,21 @@
+# wallet-sdk-demo
+This project is demo of how to use to [okx/js-wallet-sdk](https://github.com/okx/js-wallet-sdk) SDK in a simple Create React App.
+A static version of this application is hosted on <https://okx.github.io/wallet-sdk-demo>
+
+The functionality included are: 
+* Private Key and Address Generation
+* Signing Transactions
+
+The coins included are:
+* Bitcoin
+* Ethereum (EVM)
+* TON
+
+# Install Instructions
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
 
-## Install dependencies
+## Install Dependencies
 ### `npm install`
 
 ## Available Scripts
