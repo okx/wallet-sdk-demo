@@ -51,6 +51,7 @@ const BtcSignTx: React.FC<TransactionFormProps> = (props) => {
     const [scroll, setScroll] = useState(false);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log(txData)
         props.wallet.signTransaction({privateKey: props.privateKey, data: txData})
             .then(data => {
                 setTx(data)
@@ -79,7 +80,7 @@ const BtcSignTx: React.FC<TransactionFormProps> = (props) => {
                         </Link>
                     </Text>
                 </Alert>
-                <DynamicForm<utxoInput> label="Input" inputs={txInputs} setInputs={setTxInputs} />
+                <DynamicForm<utxoInput> label="Input" inputs={txInputs} setInputs={setTxInputs} fieldTypes={{ vOut: "number" }}/>
                 <DynamicForm<utxoOutput> label="Output" inputs={txOutputs} setInputs={setTxOutputs} />
                 <FormInput name={"feePerB"} data={txData} setData={setTxData}/>
                 <FormInput name={"address"} data={txData} setData={setTxData}/>

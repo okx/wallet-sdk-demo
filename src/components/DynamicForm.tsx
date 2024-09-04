@@ -7,25 +7,28 @@ interface DynamicFormProps<T> {
     label: string;
     inputs: T[];
     setInputs: Dispatch<SetStateAction<T[]>>;
+    fieldTypes?: Partial<{ [K in keyof T]: 'text' | 'number' }>;
 }
 
 const DynamicForm = <T extends { [key: string]: any }>({
-                                                           label,
-                                                           inputs,
-                                                           setInputs,
-                                                          }: DynamicFormProps<T>) => {
-      const setInput = (index: number, input: T) => {
-    setInputs((prevInputs) => {
-      const newInputs = [...prevInputs];
-      if (index >= 0 && index < newInputs.length) {
-        newInputs[index] = input;
-      }
-      return newInputs;
-    });
-  };
+    label,
+    inputs,
+    setInputs,
+    fieldTypes = {},
+}: DynamicFormProps<T>) => {
+    const setInput = (index: number, input: T) => {
+        setInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            if (index >= 0 && index < newInputs.length) {
+                newInputs[index] = input;
+            }
+            return newInputs;
+        });
+    };
+
     const handleAddInput = () => {
         const newInput: T = Object.keys(inputs[0] || {}).reduce(
-            (acc, key) => ({ ...acc, [key]: '' }),
+            (acc, key) => ({ ...acc, [key]: fieldTypes[key] === 'number' ? 0 : '' }),
             {} as T
         );
         setInputs((prevInputs) => [...prevInputs, newInput]);
@@ -54,7 +57,9 @@ const DynamicForm = <T extends { [key: string]: any }>({
                             key={fieldName}
                             name={fieldName}
                             data={input}
-                            setData={(input:T) => setInput(index, input)}/>
+                            setData={(input:T) => setInput(index, input)}
+                            type={fieldTypes[fieldName] || 'text'} // Default to 'text' if not specified
+                        />
                     ))}
                 </VStack>
                 <IconButton

@@ -8,14 +8,20 @@ import {
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
-interface FormInputProps {name: string, data: any, setData: React.SetStateAction<any>, displayName?: string}
+interface FormInputProps<T> {
+    name: string;
+    displayName?: string;
+    data: T;
+    setData: (data: T) => void;
+    type?: 'text' | 'number'; // Add this line
+}
 
-const FormInput: React.FC<FormInputProps> = (props) => {
+const FormInput = <T extends { [key: string]: any }>(props: FormInputProps<T>) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         props.setData({
             ...props.data,
-            [name]: value,
+            [name]: props.type === 'number' ? Number(value) : value,
         });
     };
 
@@ -43,6 +49,7 @@ const FormInput: React.FC<FormInputProps> = (props) => {
                 name={props.name}
                 value={props.data[props.name]}
                 onChange={handleChange}
+                type={props.type || 'text'}
             />
             <InputRightElement>
                 <IconButton
